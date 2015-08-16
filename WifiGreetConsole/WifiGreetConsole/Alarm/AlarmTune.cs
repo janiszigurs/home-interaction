@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Speech.Synthesis;
 
-namespace WifiGreetConsole
+namespace WifiGreetConsole.Alarm
 {
-    class SpeechInterface
+    class AlarmTune
     {
-
+        string SongPath { get; set; }
     }
 }
