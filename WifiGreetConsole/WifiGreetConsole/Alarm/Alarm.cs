@@ -9,7 +9,7 @@ namespace WifiGreetConsole.Alarm
     class Alarm
     {
         //by default snooze could be implemented with 5 minutes...
-        public int ID { get; set; }
+        public Guid id { get; set; }
         public bool isRepeatable { get; set; }
         public DateTime AlarmTime { get; set; }
         public int SnoozeCount { get; set; }

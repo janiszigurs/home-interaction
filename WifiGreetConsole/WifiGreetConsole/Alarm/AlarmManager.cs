@@ -36,7 +36,7 @@ namespace WifiGreetConsole.Alarm
         public bool AddAlarm()
         {
             Alarm currAlarm = new Alarm();
-            currAlarm.ID = 1;
+            currAlarm.id = new Guid();
             currAlarm.SnoozeCount = 2;
             string time;
             Console.WriteLine("Please provide Time to set alarm");
@@ -51,9 +51,22 @@ namespace WifiGreetConsole.Alarm
         {
             Console.WriteLine(this.Alarms.Count());
             Alarm currAlarm = new Alarm();
-            currAlarm.ID = 1;
+            currAlarm.id = new Guid();
             currAlarm.SnoozeCount = 2;
             currAlarm.AlarmTime =  new DateTime().AddHours(hours).AddMinutes(minutes);
+            Console.Write(currAlarm.AlarmTime.ToString());
+            this.Alarms.Add(currAlarm);
+            SaveAlarms();
+            return true;
+        }
+
+        public bool AddAlarm(int hours, int minutes, int snoozecount)
+        {
+            Console.WriteLine(this.Alarms.Count());
+            Alarm currAlarm = new Alarm();
+            currAlarm.id = new Guid();
+            currAlarm.SnoozeCount = snoozecount;
+            currAlarm.AlarmTime = new DateTime().AddHours(hours).AddMinutes(minutes);
             Console.Write(currAlarm.AlarmTime.ToString());
             this.Alarms.Add(currAlarm);
             SaveAlarms();
@@ -71,8 +84,10 @@ namespace WifiGreetConsole.Alarm
             //playTune
         }
 
-        public void DeleteAlarm(int id)
+        public void DeleteAlarm(Guid alarmid)
         {
+            var AlarmToDelete = Alarms.Single(r => r.id == alarmid);
+            Alarms.Remove(AlarmToDelete);
         }
 
         public void SaveAlarms()
