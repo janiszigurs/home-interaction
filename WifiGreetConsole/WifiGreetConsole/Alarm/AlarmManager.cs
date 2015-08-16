@@ -13,14 +13,9 @@ namespace WifiGreetConsole.Alarm
 {
     class AlarmManager
     {
+        Guid a = Guid.NewGuid();
         public bool _stopThread = false; //stop alarm thread
         public List<Alarm> Alarms = new List<Alarm>();
-
-        public AlarmManager(string AlarmConfigFileName)
-        {
-            Alarms = new List<Alarm>();
-            LoadAlarms(AlarmConfigFileName);      
-        }
 
         public bool LoadAlarms(string AlarmConfigFileName)
         {
@@ -30,20 +25,15 @@ namespace WifiGreetConsole.Alarm
                 json = reader.ReadToEnd();
                 reader.Close();
             }
-            this.Alarms = JsonConvert.DeserializeObject<List<Alarm>>(json);
-            return true;
-        }
-        public bool AddAlarm()
-        {
-            Alarm currAlarm = new Alarm();
-            currAlarm.id = new Guid();
-            currAlarm.SnoozeCount = 2;
-            string time;
-            Console.WriteLine("Please provide Time to set alarm");
-            time = Console.ReadLine();
-            currAlarm.AlarmTime = DateTime.ParseExact(time, @"h\:m", CultureInfo.InvariantCulture);
-            this.Alarms.Add(currAlarm);
-            //save alarms to file
+            if (json.Length == 0)
+            {
+                this.Alarms = new List<Alarm>();
+            }
+            else
+            {
+                this.Alarms = JsonConvert.DeserializeObject<List<Alarm>>(json);
+            }
+
             return true;
         }
 
@@ -51,7 +41,7 @@ namespace WifiGreetConsole.Alarm
         {
             Console.WriteLine(this.Alarms.Count());
             Alarm currAlarm = new Alarm();
-            currAlarm.id = new Guid();
+            currAlarm.id = Guid.NewGuid();
             currAlarm.SnoozeCount = 2;
             currAlarm.AlarmTime =  new DateTime().AddHours(hours).AddMinutes(minutes);
             Console.Write(currAlarm.AlarmTime.ToString());
@@ -64,7 +54,7 @@ namespace WifiGreetConsole.Alarm
         {
             Console.WriteLine(this.Alarms.Count());
             Alarm currAlarm = new Alarm();
-            currAlarm.id = new Guid();
+            currAlarm.id = Guid.NewGuid(); ;
             currAlarm.SnoozeCount = snoozecount;
             currAlarm.AlarmTime = new DateTime().AddHours(hours).AddMinutes(minutes);
             Console.Write(currAlarm.AlarmTime.ToString());
@@ -86,8 +76,13 @@ namespace WifiGreetConsole.Alarm
 
         public void DeleteAlarm(Guid alarmid)
         {
-            var AlarmToDelete = Alarms.Single(r => r.id == alarmid);
-            Alarms.Remove(AlarmToDelete);
+            var AlarmToDelete = this.Alarms.Single(r => r.id == alarmid);
+            this.Alarms.Remove(AlarmToDelete);
+        }
+
+        public void InitializeEnvironment()
+        {
+            //crate config file if it doesnt exist. This prevents json empty file error.
         }
 
         public void SaveAlarms()
@@ -108,7 +103,7 @@ namespace WifiGreetConsole.Alarm
 
         public void StartAlarmClock()
         {
-            while (!_stopThread)
+            while (!this._stopThread)
             {
                 Thread.Sleep(31000);
                 foreach (Alarm CurrAlarm in Alarms)
@@ -117,10 +112,10 @@ namespace WifiGreetConsole.Alarm
                     {
                         if (CurrAlarm.weekdays[(int)DateTime.Now.DayOfWeek] == true)
                         {
-                            Console.Write("Alarm called/n");
+                            Console.WriteLine("Alarm called!");
                             this.AwakePerson();
                             Thread.Sleep(1000);
-                            //_stopThread = true;
+                            //this._stopThread = true;
                         }
                     }
                 }
