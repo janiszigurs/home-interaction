@@ -12,18 +12,12 @@ namespace WifiGreetConsole
     {
         static void Main(string[] args)
         {
-            Alarm.AlarmManager Manager = new Alarm.AlarmManager("Alarmsconfigfile");
-            Manager.AddAlarm(18,00);
-            Manager.AddAlarm(18,10);
-            Manager.AddAlarm(18,11);
-            Manager.AddAlarm(18,12);
+            Alarm.AlarmManager Manager = new Alarm.AlarmManager(@"d:\json.txt");
+            //Manager.AddAlarm(19,15);
+            Console.Write(Manager.Alarms.Count);
             new Thread(delegate () { Manager.StartAlarmClock(); }).Start();
-            Console.Write("Thread Started");
-            Thread.Sleep(10000000);
-            
-         //.Write(DateTime.Now.ToString("h and mm tt"));
-            // Synchronous
-            synthesizer.Speak(sup);
+            Console.Write("Thread Started /n");
+            Thread.Sleep(1000);
 
             // Asynchronous
             //synthesizer.SpeakAsync("Hello World");

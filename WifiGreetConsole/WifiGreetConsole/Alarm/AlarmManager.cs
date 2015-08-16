@@ -6,23 +6,31 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Globalization;
 using System.Speech.Synthesis;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace WifiGreetConsole.Alarm
 {
     class AlarmManager
     {
-        public bool _stopThread = false;
+        public bool _stopThread = false; //stop alarm thread
         public List<Alarm> Alarms = new List<Alarm>();
 
         public AlarmManager(string AlarmConfigFileName)
         {
-            LoadAlarms(AlarmConfigFileName);
+            Alarms = new List<Alarm>();
+            LoadAlarms(AlarmConfigFileName);      
         }
 
         public bool LoadAlarms(string AlarmConfigFileName)
         {
-            //read alarms and assign the, to alam manager
-            //if no errors return true
+            string json;
+            using (StreamReader reader = new StreamReader(AlarmConfigFileName))
+            {
+                json = reader.ReadToEnd();
+                reader.Close();
+            }
+            this.Alarms = JsonConvert.DeserializeObject<List<Alarm>>(json);
             return true;
         }
         public bool AddAlarm()
@@ -41,12 +49,14 @@ namespace WifiGreetConsole.Alarm
 
         public bool AddAlarm(int hours, int minutes)
         {
+            Console.WriteLine(this.Alarms.Count());
             Alarm currAlarm = new Alarm();
             currAlarm.ID = 1;
             currAlarm.SnoozeCount = 2;
             currAlarm.AlarmTime =  new DateTime().AddHours(hours).AddMinutes(minutes);
             Console.Write(currAlarm.AlarmTime.ToString());
             this.Alarms.Add(currAlarm);
+            SaveAlarms();
             return true;
         }
 
@@ -63,13 +73,17 @@ namespace WifiGreetConsole.Alarm
 
         public void DeleteAlarm(int id)
         {
-            //deletes the alarm
         }
 
         public void SaveAlarms()
         {
-            
-            //deletes the alarm
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamWriter sw = new StreamWriter(@"d:\json.txt"))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                string output = JsonConvert.SerializeObject(Alarms);
+                serializer.Serialize(writer, Alarms);
+            }
         }
 
         public void ListAlarms()
@@ -88,7 +102,7 @@ namespace WifiGreetConsole.Alarm
                     {
                         if (CurrAlarm.weekdays[(int)DateTime.Now.DayOfWeek] == true)
                         {
-                            Console.Write("Alarm called");
+                            Console.Write("Alarm called/n");
                             this.AwakePerson();
                             Thread.Sleep(1000);
                             //_stopThread = true;
