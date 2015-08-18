@@ -19,8 +19,6 @@ namespace WifiGreetConsole
             Manager.AddAlarm(21,15);
             Console.Write(Manager.Alarms.Count);
             //new Thread(delegate () { Manager.StartAlarmClock(); }).Start();
-            //Console.Write("Thread Started /n");
-            //Thread.Sleep(1000);
 
             // Asynchronous
             //synthesizer.SpeakAsync("Hello World");
