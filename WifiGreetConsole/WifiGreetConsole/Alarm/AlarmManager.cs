@@ -24,7 +24,7 @@ namespace WifiGreetConsole.Alarm
                 //empty body. this creates file if its not yet created.
             };
 
-                string json;
+            string json;
             using (StreamReader reader = new StreamReader(AlarmConfigFileName))
             {
                 json = reader.ReadToEnd();

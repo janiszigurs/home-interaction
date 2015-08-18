@@ -52,6 +52,7 @@
     <Compile Include="Alarm\Alarm.cs" />
     <Compile Include="Alarm\AlarmManager.cs" />
     <Compile Include="Alarm\AlarmTune.cs" />
+    <Compile Include="Backbone\Logger.cs" />
     <Compile Include="MacListener.cs" />
     <Compile Include="PingIP.cs" />
     <Compile Include="Program.cs" />
