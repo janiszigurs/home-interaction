@@ -19,7 +19,12 @@ namespace WifiGreetConsole.Alarm
 
         public bool LoadAlarms(string AlarmConfigFileName)
         {
-            string json;
+            using (StreamWriter w = File.AppendText(AlarmConfigFileName))
+            {
+                //empty body. this creates file if its not yet created.
+            };
+
+                string json;
             using (StreamReader reader = new StreamReader(AlarmConfigFileName))
             {
                 json = reader.ReadToEnd();

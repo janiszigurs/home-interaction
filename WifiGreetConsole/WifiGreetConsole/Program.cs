@@ -27,7 +27,13 @@ namespace WifiGreetConsole
             // Asynchronous
             //synthesizer.SpeakAsync("Hello World");*/
 
-            //fetched from settings
+            Alarm.AlarmManager Manager = new Alarm.AlarmManager();
+            Manager.LoadAlarms("StoredAlarms.json");
+
+            Manager.AddAlarm(20, 15);
+            Manager.AddAlarm(20, 19);
+            Manager.AddAlarm(21, 15);
+
             Console.WriteLine(ConfigurationManager.AppSettings["testkey"]);
             Console.WriteLine(ConfigurationManager.AppSettings["a"]);
 
@@ -39,12 +45,12 @@ namespace WifiGreetConsole
 
             PingIP pingip = new PingIP();
             Process proc = pingip.StartPingingProcess(path);
-            
+
 
             IPAddress ip = IPAddress.Parse("192.168.1.6");
 
             Console.WriteLine(pingip.PingIPAddress(ip,proc));
             Console.ReadKey();
-         }
+        }
     }
 }
