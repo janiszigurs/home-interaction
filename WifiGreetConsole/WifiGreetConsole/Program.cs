@@ -8,6 +8,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Net;
 using System.IO;
+using System.Configuration;
 
 namespace WifiGreetConsole
 {
@@ -25,6 +26,11 @@ namespace WifiGreetConsole
 
             // Asynchronous
             //synthesizer.SpeakAsync("Hello World");*/
+
+            //fetched from settings
+            Console.WriteLine(ConfigurationManager.AppSettings["testkey"]);
+            Console.WriteLine(ConfigurationManager.AppSettings["a"]);
+
 
             string path = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
             path = path.Remove(path.Length - 9);
