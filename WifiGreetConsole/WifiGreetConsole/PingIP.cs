@@ -17,7 +17,7 @@ namespace WifiGreetConsole
         {
             StreamWriter cmd_writer = process.StandardInput;
             cmd_writer.WriteLine("cls");
-            cmd_writer.WriteLine("arp-ping "+address.ToString()+" -n 7 -x");
+            cmd_writer.WriteLine("arp-ping "+address.ToString()+" -n 2 -x");
             cmd_writer.Close();
 
             string Output = process.StandardOutput.ReadToEnd();
@@ -34,9 +34,9 @@ namespace WifiGreetConsole
             return "address:"+address.ToString()+" OK";
         }
 
-        public Process StartPingingProcess()
+        public Process StartPingingProcess(string path)
         {
-            ProcessStartInfo procStartInfo = new ProcessStartInfo("cmd", "/K")
+            ProcessStartInfo procStartInfo = new ProcessStartInfo("cmd", "/K"+"cd "+path) //actually setting process
             {
                 RedirectStandardError = true,
                 RedirectStandardOutput = true,
@@ -45,9 +45,9 @@ namespace WifiGreetConsole
                 CreateNoWindow = true
             };
 
-            Process proc = new Process();
+            Process proc = new Process(); 
             proc.StartInfo = procStartInfo;
-            proc.Start();
+            proc.Start();               //actually this is where pinging process is started
 
             return proc;
         }

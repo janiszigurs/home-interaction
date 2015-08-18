@@ -7,6 +7,7 @@ using System.Speech.Synthesis;
 using System.Threading;
 using System.Diagnostics;
 using System.Net;
+using System.IO;
 
 namespace WifiGreetConsole
 {
@@ -25,8 +26,13 @@ namespace WifiGreetConsole
             // Asynchronous
             //synthesizer.SpeakAsync("Hello World");*/
 
+            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+            path = path.Remove(path.Length - 9);
+            path = path + @"executables\";
+            Console.WriteLine(path);
+
             PingIP pingip = new PingIP();
-            Process proc = pingip.StartPingingProcess();
+            Process proc = pingip.StartPingingProcess(path);
             
 
             IPAddress ip = IPAddress.Parse("192.168.1.6");
