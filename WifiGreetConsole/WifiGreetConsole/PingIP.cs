@@ -11,26 +11,45 @@ namespace WifiGreetConsole
 {
     public class PingIP
     {
-        char[] delimiterChars = { ' ' };
+        char[] delimiterChars = { ' ',',' };
 
-        public string PingIPAddress(IPAddress address, Process process) //StartInfo.RedirectStandardInput = true; must be process startinfo..
+        public string PingIPAddress(IPAddress address, Process process)
         {
             StreamWriter cmd_writer = process.StandardInput;
-            cmd_writer.WriteLine("arp-ping "+address.ToString()+" -n 1");
+            cmd_writer.WriteLine("cls");
+            cmd_writer.WriteLine("arp-ping "+address.ToString()+" -n 7 -x");
+            cmd_writer.Close();
 
             string Output = process.StandardOutput.ReadToEnd();
             string[] strings = Output.Split(delimiterChars,StringSplitOptions.RemoveEmptyEntries);
 
-            for (int i=0;i<strings.Length;i++)
+            for (int i=1;i<strings.Length;i++)
             {
-                if (strings[i+1] == "successful" & strings[i] == "0")
+                if (strings[i] == "successful" & strings[i-1] == "0")
                 {
                     return "address:" + address.ToString() + " NOT OK";
                 }
             }
 
-            cmd_writer.Close();
             return "address:"+address.ToString()+" OK";
+        }
+
+        public Process StartPingingProcess()
+        {
+            ProcessStartInfo procStartInfo = new ProcessStartInfo("cmd", "/K")
+            {
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                RedirectStandardInput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            Process proc = new Process();
+            proc.StartInfo = procStartInfo;
+            proc.Start();
+
+            return proc;
         }
     }
 }

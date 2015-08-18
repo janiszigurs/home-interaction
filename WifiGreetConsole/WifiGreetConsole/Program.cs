@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Speech.Synthesis;
 using System.Threading;
+using System.Diagnostics;
+using System.Net;
 
 namespace WifiGreetConsole
 {
@@ -12,7 +14,7 @@ namespace WifiGreetConsole
     {
         static void Main(string[] args)
         {
-            Alarm.AlarmManager Manager = new Alarm.AlarmManager();
+            /*Alarm.AlarmManager Manager = new Alarm.AlarmManager();
             Manager.LoadAlarms(@"d:\json.txt");
             Manager.AddAlarm(20,15);
             Manager.AddAlarm(20,19);
@@ -21,7 +23,16 @@ namespace WifiGreetConsole
             //new Thread(delegate () { Manager.StartAlarmClock(); }).Start();
 
             // Asynchronous
-            //synthesizer.SpeakAsync("Hello World");
-        }
+            //synthesizer.SpeakAsync("Hello World");*/
+
+            PingIP pingip = new PingIP();
+            Process proc = pingip.StartPingingProcess();
+            
+
+            IPAddress ip = IPAddress.Parse("192.168.1.6");
+
+            Console.WriteLine(pingip.PingIPAddress(ip,proc));
+            Console.ReadKey();
+         }
     }
 }
