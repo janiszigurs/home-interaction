@@ -47,7 +47,7 @@ namespace WifiGreetConsole
 
             Process proc = new Process(); 
             proc.StartInfo = procStartInfo;
-            proc.Start();               //actually this is where pinging process is started
+            proc.Start();               //actually this is where pinging process is started blah
 
             return proc;
         }
