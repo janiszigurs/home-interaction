@@ -14,14 +14,10 @@ namespace WifiGreetConsole
 {
     class Program
     {
+        static bool _StopMainThread = false;
+
         static void Main(string[] args)
         {
-            /*Alarm.AlarmManager Manager = new Alarm.AlarmManager();
-            Manager.LoadAlarms(@"d:\json.txt");
-            Manager.AddAlarm(20,15);
-            Manager.AddAlarm(20,19);
-            Manager.AddAlarm(21,15);
-            Console.Write(Manager.Alarms.Count);
             //new Thread(delegate () { Manager.StartAlarmClock(); }).Start();
 
             // Asynchronous
@@ -33,6 +29,8 @@ namespace WifiGreetConsole
             Manager.AddAlarm(20, 15);
             Manager.AddAlarm(20, 19);
             Manager.AddAlarm(21, 15);
+            
+
 
             Console.WriteLine(ConfigurationManager.AppSettings["testkey"]);
             Console.WriteLine(ConfigurationManager.AppSettings["a"]);
@@ -51,6 +49,32 @@ namespace WifiGreetConsole
 
             Console.WriteLine(pingip.PingIPAddress(ip,proc));
             Console.ReadKey();
+
+            string input;
+
+            while(!_StopMainThread)
+            {
+                input = Console.ReadLine();
+                switch (input)
+                {
+                    case "start alarm":
+                        new Thread(delegate () { Manager.StartAlarmClock(); }).Start();
+                        break;
+                    case "add alarm":
+                        Console.WriteLine("");
+                        int hours = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("");
+                        int minutes = Convert.ToInt32(Console.ReadLine());
+                        Manager.AddAlarm(hours, minutes);
+                        break;
+                    case "alarm count":
+                        Console.WriteLine(Manager.Alarms.Count());
+                        break;
+                    default:
+                        _StopMainThread = true;
+                        break;
+                }
+            }
         }
     }
 }
