@@ -14,7 +14,7 @@ namespace WifiGreetConsole.Alarm
     class AlarmManager
     {
         Guid a = Guid.NewGuid();
-        public bool _stopThread = false; //stop alarm thread
+        public bool _stopThread = false;
         public List<Alarm> Alarms = new List<Alarm>();
 
         public bool LoadAlarms(string AlarmConfigFileName)
