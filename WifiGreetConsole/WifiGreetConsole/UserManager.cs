@@ -13,17 +13,19 @@ namespace WifiGreetConsole
     public class UserManager
     {
         List<User> users = new List<User>();
-        int id = 0;
-        public UserManager()
-        {
+        int id;
 
-            string line;
-            string[] strings;
-            char[] charSeparators = new char[] { ' ' };
-            StreamReader sr = new StreamReader("data.txt");
-            while ((line = sr.ReadLine()) != null)
+
+
+        public void ReadUsers(string filepath)
+        {
+            int id = 0;
+            string line = null;
+            StreamReader user_reader = new StreamReader(filepath);
+
+            while ((line = user_reader.ReadLine()) != null)
             {
-                strings = line.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+                string[] strings = SplitString(line);
                 if (strings.Length > 0)
                 {
                     User user = new User();
@@ -37,69 +39,89 @@ namespace WifiGreetConsole
                     id++;
                 }
             }
-            sr.Close();
+            user_reader.Close();
         }
 
-        public void ConnectUsers(PhysicalAddress address)
+
+
+
+        public string[] SplitString(string string_to_split) //shouldn't be in this class
         {
-            bool add = true;
+            char [] charSeparators = {',',' '};
+            string [] strings = string_to_split.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+
+            return strings;
+        }
+
+
+
+
+        public string CheckIfUserIsConnectedAndExists(PhysicalAddress passed_mac_address)
+        {
             foreach (User user in users)
             {
-                if (user.mac_address.ToString() == address.ToString())
-                {
-                    add = false;
+                if (user.mac_address == passed_mac_address)
+                {                 
                     if (user.status == "Disconnected")
                     {
                         user.status = "Connected";
-                        //TODO : sasveicinaaties
-                        //SpeechSynthesizer synthesizer = new SpeechSynthesizer();
-                        //synthesizer.Volume = 100;  // 0...100
-                        //synthesizer.Rate = -2;     // -10...10
-                        //                           //synthesizer.SetOutputToDefaultAudioDevice();
-                        //string sup = "Greetings!";
-                        //synthesizer.Speak(sup);
-                    }               
+                        //TODO: Greetings!
+                        return "Exists";
+                    }
+                    return "Exists";
                 }
             }
-            if (add == true)
+
+            return "Does not exist";
+        }
+
+
+
+
+        public void AddUserIfNecessary(string DoesExist, PhysicalAddress passed_mac_address,string filepath)
+        {
+            if (DoesExist == "Does not exist")
             {
-                File.AppendAllText("data.txt", address.ToString() + ' ' + "Unknown" + ' ' + "Unknown" + Environment.NewLine);
+                File.AppendAllText(filepath, passed_mac_address.ToString() + ' ' + "Unknown" + ' ' + "Unknown" + Environment.NewLine);
                 User user = new User();
                 id++;
                 user.id = id;
-                user.mac_address = address;
+                user.mac_address = passed_mac_address;
                 user.name = "Unknown";
                 user.status = "Connected";
                 user.gender = "Unknown";
-                //TODO : sasveicinaaties ar unknown
-                SpeechSynthesizer synthesizer = new SpeechSynthesizer();
-                synthesizer.Volume = 100;  // 0...100
-                synthesizer.Rate = -2;     // -10...10
-                                           //synthesizer.SetOutputToDefaultAudioDevice();
-                string sup = "Greetings!";
-                synthesizer.Speak(sup);
+
+                users.Add(user);
+
+                //TODO: Greetings, stranger!
             }
         }
-        public void DisconnectUsers(List<PhysicalAddress> mac)
+
+
+        public void UserStatusDisconnect(List<PhysicalAddress> passed_mac_list)
         {
             foreach (User user in users)
             {
+                bool Disconnect = true;
                 if (user.status == "Connected")
                 {
-                    bool disconnect = true;
-                    foreach (PhysicalAddress address in mac)
+                    foreach (PhysicalAddress mac in passed_mac_list)
                     {
-                        if (address == user.mac_address)
+                        if (user.mac_address == mac)
                         {
-                            disconnect = false;
+                            Disconnect = false;
                         }
                     }
-                    if (disconnect == true) { user.status = "Disconnected"; }
                 }
+                if (Disconnect == true) { user.status = "Disconnected"; }
             }
         }
 
 
-
+        public UserManager(string filepath)
+        {
+            //TODO: add ReadUsers call (once)
+            ReadUsers(filepath);
+        }
     }
 }
