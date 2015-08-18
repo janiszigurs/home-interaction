@@ -14,7 +14,7 @@ namespace WifiGreetConsole.Alarm
     class AlarmManager
     {
         Guid a = Guid.NewGuid();
-        public bool _stopThread = false; //stop alarm thread
+        public bool _stopThread = false;
         public List<Alarm> Alarms = new List<Alarm>();
 
         public bool LoadAlarms(string AlarmConfigFileName)
@@ -24,7 +24,7 @@ namespace WifiGreetConsole.Alarm
                 //empty body. this creates file if its not yet created.
             };
 
-                string json;
+            string json;
             using (StreamReader reader = new StreamReader(AlarmConfigFileName))
             {
                 json = reader.ReadToEnd();

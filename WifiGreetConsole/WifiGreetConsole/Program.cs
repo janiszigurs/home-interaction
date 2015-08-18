@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Net;
 using System.IO;
 using System.Configuration;
+using WifiGreetConsole.Backbone;
 
 namespace WifiGreetConsole
 {
@@ -18,58 +19,44 @@ namespace WifiGreetConsole
 
         static void Main(string[] args)
         {
-            //new Thread(delegate () { Manager.StartAlarmClock(); }).Start();
-
-            // Asynchronous
-            //synthesizer.SpeakAsync("Hello World");*/
-
             Alarm.AlarmManager Manager = new Alarm.AlarmManager();
-            Manager.LoadAlarms("StoredAlarms.json");
 
-            Manager.AddAlarm(20, 15);
-            Manager.AddAlarm(20, 19);
-            Manager.AddAlarm(21, 15);
-            
-
-
+            //example of how to work with settings
             Console.WriteLine(ConfigurationManager.AppSettings["testkey"]);
-            Console.WriteLine(ConfigurationManager.AppSettings["a"]);
-
-
-            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-            path = path.Remove(path.Length - 9);
-            path = path + @"executables\";
-            Console.WriteLine(path);
-
-            PingIP pingip = new PingIP();
-            Process proc = pingip.StartPingingProcess(path);
-
-
-            IPAddress ip = IPAddress.Parse("192.168.1.6");
-
-            Console.WriteLine(pingip.PingIPAddress(ip,proc));
-            Console.ReadKey();
 
             string input;
 
             while(!_StopMainThread)
             {
+                Console.WriteLine("Select Option");
                 input = Console.ReadLine();
                 switch (input)
                 {
-                    case "start alarm":
+                    case "start alarms":
+                        Manager.LoadAlarms("StoredAlarms.json");
                         new Thread(delegate () { Manager.StartAlarmClock(); }).Start();
                         break;
+
                     case "add alarm":
-                        Console.WriteLine("");
+                        Console.WriteLine("Please provide Hours");
                         int hours = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("");
+                        Console.WriteLine("Please provide Minutes");
                         int minutes = Convert.ToInt32(Console.ReadLine());
                         Manager.AddAlarm(hours, minutes);
+                        Console.WriteLine("Alarm added");
+                        #if DEBUG
+                            new Logger("DEBUG", "Alarm added");
+                        #endif
                         break;
+
                     case "alarm count":
-                        Console.WriteLine(Manager.Alarms.Count());
+                        Console.WriteLine("Currently you have:"+Manager.Alarms.Count());
                         break;
+
+                    case "stop alarms":
+                        Manager._stopThread = true;
+                        break;
+
                     default:
                         _StopMainThread = true;
                         break;
