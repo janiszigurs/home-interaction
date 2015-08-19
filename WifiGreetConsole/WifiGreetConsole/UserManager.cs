@@ -19,6 +19,7 @@ namespace WifiGreetConsole
 
         public void ReadUsers(string filepath)
         {
+            Console.WriteLine("Reading users");
             int id = 0;
             string line = null;
             StreamReader user_reader = new StreamReader(filepath);
@@ -45,7 +46,7 @@ namespace WifiGreetConsole
 
 
 
-        public string[] SplitString(string string_to_split) //shouldn't be in this class
+        public string[] SplitString(string string_to_split) //shouldn't be in this class...
         {
             char [] charSeparators = {',',' '};
             string [] strings = string_to_split.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
@@ -55,26 +56,29 @@ namespace WifiGreetConsole
 
 
 
-
         public string CheckIfUserIsConnectedAndExists(PhysicalAddress passed_mac_address)
         {
             foreach (User user in users)
             {
-                if (user.mac_address == passed_mac_address)
+                if (user.mac_address.ToString() == passed_mac_address.ToString())
                 {                 
                     if (user.status == "Disconnected")
                     {
                         user.status = "Connected";
                         //TODO: Greetings!
+                        Console.WriteLine("Greetings! You are NOW connected! :" + passed_mac_address.ToString());
                         return "Exists";
                     }
-                    return "Exists";
+                    else
+                    if(user.status == "Connected")
+                    {
+                        Console.WriteLine("Greetings! You are already connected! :"+passed_mac_address.ToString());
+                        return "Exists";
+                    }            
                 }
             }
-
             return "Does not exist";
         }
-
 
 
 
@@ -83,8 +87,7 @@ namespace WifiGreetConsole
             if (DoesExist == "Does not exist")
             {
                 File.AppendAllText(filepath, passed_mac_address.ToString() + ' ' + "Unknown" + ' ' + "Unknown" + Environment.NewLine);
-                User user = new User();
-                id++;
+                User user = new User();                
                 user.id = id;
                 user.mac_address = passed_mac_address;
                 user.name = "Unknown";
@@ -92,14 +95,17 @@ namespace WifiGreetConsole
                 user.gender = "Unknown";
 
                 users.Add(user);
-
+                id++;
                 //TODO: Greetings, stranger!
+                Console.WriteLine("Greetings stranger! :"+passed_mac_address.ToString());
+
             }
         }
 
 
         public void UserStatusDisconnect(List<PhysicalAddress> passed_mac_list)
         {
+            List<int> UserIDsToDisconnect = new List<int>();
             foreach (User user in users)
             {
                 bool Disconnect = true;
@@ -107,20 +113,37 @@ namespace WifiGreetConsole
                 {
                     foreach (PhysicalAddress mac in passed_mac_list)
                     {
-                        if (user.mac_address == mac)
+                        if (user.mac_address.ToString() == mac.ToString())
                         {
                             Disconnect = false;
                         }
                     }
                 }
-                if (Disconnect == true) { user.status = "Disconnected"; }
+                if (Disconnect == true)
+                {
+                    user.status = "Disconnected";
+                    Console.WriteLine("Disconnected user with MAC: " + user.mac_address.ToString());
+                    //UserIDsToDisconnect.Add(user.id);
+                }
+                
             }
+            /*foreach (int id in UserIDsToDisconnect)
+            {
+                for (int i=0;i<users.Count;i++)
+                {
+                    if(users[i].id == id)
+                    {
+                        Console.WriteLine("Removed user with MAC: " + users[i].mac_address.ToString());
+                        users.Remove(users[i]);              
+                    }
+                }
+            }
+            UserIDsToDisconnect.RemoveRange(0, UserIDsToDisconnect.Count);*/
         }
 
 
         public UserManager(string filepath)
         {
-            //TODO: add ReadUsers call (once)
             ReadUsers(filepath);
         }
     }

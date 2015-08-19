@@ -17,10 +17,23 @@ namespace WifiGreetConsole
         PingIP pingip;
         List<PhysicalAddress> mac_addreses;
         List<IPAddress> IP_addreses;
+        string filepath;
+        Process process;
+        ProcessStartInfo procStartInfo;
+
+        public string ReturnLocation()
+        {
+            string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+            path = path.Remove(path.Length - 9);
+            path = path + @"UserData\Users.txt";
+
+            return path;
+        }
 
         public MacListener()
         {
-            manager = new UserManager();
+            filepath = ReturnLocation();
+            manager = new UserManager(filepath);    //add filepath!
             pingip = new PingIP();
             mac_addreses = new List<PhysicalAddress>();
             IP_addreses = new List<IPAddress>();
@@ -29,11 +42,11 @@ namespace WifiGreetConsole
 
         public ProcessStartInfo SetARPProcessStartInfo()
         {
-            ProcessStartInfo procStartInfo = new ProcessStartInfo("cmd", "/K")
+            procStartInfo = new ProcessStartInfo("cmd", "/C"+"ARP -a")
             {
                 RedirectStandardError = true,
                 RedirectStandardOutput = true,
-                RedirectStandardInput = true,
+                RedirectStandardInput = false,
                 UseShellExecute = false,
                 CreateNoWindow = true
                 
@@ -43,9 +56,9 @@ namespace WifiGreetConsole
 
 
 
-        public Process StartARPProcess(ProcessStartInfo procStartInfo)
+        public Process StartARPProcess()
         {
-            Process process = new Process();
+            process = new Process();
             process.StartInfo = procStartInfo;
             process.Start();      
 
@@ -56,22 +69,13 @@ namespace WifiGreetConsole
 
         public void ResetMACList(List<PhysicalAddress> mac_list)
         {
-            foreach (PhysicalAddress mac_address in mac_list)
-            {
-                mac_list.Remove(mac_address);
-            }
+            mac_list.RemoveRange(0,mac_list.Count);
         }
 
-
-
-        public void SendARPTableRequest(Process process)
+        public void ResetIPList(List<IPAddress> ip_list)
         {
-            StreamWriter command_writer = process.StandardInput;
-            command_writer.WriteLine("cls");
-            command_writer.WriteLine("arp -a");
-            command_writer.Close();
+            ip_list.RemoveRange(0, ip_list.Count);
         }
-
 
 
         public string[] SplitString(string string_to_split) //shouldn't be in this class
@@ -86,7 +90,7 @@ namespace WifiGreetConsole
         public void GetAndAddAddresses(Process process,List<IPAddress> ip_addr_list, List<PhysicalAddress> mac_addr_list)
         {
             string strOutput = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
+            process.WaitForExit(50);
 
             string[] text = SplitString(strOutput);
 
@@ -100,25 +104,57 @@ namespace WifiGreetConsole
             }
         }
 
-
-
-        public void HandleConnections(Process process,string filepath) //used for thread
+        public void RunMainThread()
         {
-            SendARPTableRequest(process);
-            GetAndAddAddresses(process, IP_addreses, mac_addreses);
+            ProcessStartInfo PSI = SetARPProcessStartInfo();
+            
 
-            //TODO: ping ip addresses
-
-
-
-            foreach (PhysicalAddress mac in mac_addreses)
-            {
-                manager.AddUserIfNecessary(manager.CheckIfUserIsConnectedAndExists(mac), mac,filepath);                             
-            }
-
-
-            manager.UserStatusDisconnect(mac_addreses);
-            ResetMACList(mac_addreses);
+            Thread main = new Thread(HandleConnections);
+            main.Start();
         }
+
+
+        public void HandleConnections() //used for thread
+        {
+            while (true)
+            {
+                Console.WriteLine("Entering HandleConnections main loop");
+                Process proc = StartARPProcess();
+                //SendARPTableRequest(process);
+
+                foreach (IPAddress ip_address in IP_addreses) //go through each IP in ARP table and pings it
+                {
+                    //TODO: ping ip addresses
+                }
+
+                Console.WriteLine("Getting IP and MAC from ARP"); //gets error when StreamWriter used
+                GetAndAddAddresses(process, IP_addreses, mac_addreses); //gets mac and ip addresses from ARP -a
+                Console.WriteLine("Checking users");
+
+                foreach (PhysicalAddress mac in mac_addreses)
+                {
+                    manager.AddUserIfNecessary(manager.CheckIfUserIsConnectedAndExists(mac), mac, filepath); //cheks and adds user if necessary
+                }
+
+                Console.WriteLine("Going to disconnect users");
+                manager.UserStatusDisconnect(mac_addreses);
+                Console.WriteLine("Disconnected users");
+                ResetMACList(mac_addreses);
+                ResetIPList(IP_addreses);
+                Console.WriteLine("Exiting HandleConnection loop");
+                Thread.Sleep(5000);
+            }
+        }
+
+        /*public void SendARPTableRequest(Process process)
+        {
+            Console.WriteLine("Sending ARP table request");
+
+            StreamWriter command_writer = process.StandardInput;
+            command_writer.WriteLine("cls");
+            command_writer.WriteLine("arp -a");
+            command_writer.Close();
+        }*/
+
     }
 }

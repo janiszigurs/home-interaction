@@ -11,7 +11,7 @@ namespace WifiGreetConsole
 {
     public class PingIP
     {
-        char[] delimiterChars = { ' ',',' };
+        /*char[] delimiterChars = { ' ',',' };
 
         public string PingIPAddress(IPAddress address, Process process)
         {
@@ -50,6 +50,9 @@ namespace WifiGreetConsole
             proc.Start();               //actually this is where pinging process is started blah
 
             return proc;
-        }
+        }*/
+
+
+
     }
 }

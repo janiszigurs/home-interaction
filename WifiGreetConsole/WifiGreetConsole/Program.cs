@@ -20,7 +20,12 @@ namespace WifiGreetConsole
         static void Main(string[] args)
         {
             Alarm.AlarmManager Manager = new Alarm.AlarmManager();
+            MacListener maclistener = new MacListener();
+            maclistener.RunMainThread();
 
+
+
+            /*
             //example of how to work with settings
             Console.WriteLine(ConfigurationManager.AppSettings["testkey"]);
 
@@ -61,7 +66,7 @@ namespace WifiGreetConsole
                         _StopMainThread = true;
                         break;
                 }
-            }
+            }*/
         }
     }
 }
