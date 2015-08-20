@@ -100,6 +100,7 @@ namespace WifiGreetConsole
                 {
                     mac_addr_list.Add(PhysicalAddress.Parse(text[k-1].ToUpper()));
                     ip_addr_list.Add(IPAddress.Parse(text[k - 2].ToUpper()));
+                    Console.WriteLine(text[k - 2]);
                 }
             }
         }
@@ -110,6 +111,7 @@ namespace WifiGreetConsole
             
 
             Thread main = new Thread(HandleConnections);
+            //main.IsBackground = true;
             main.Start();
         }
 
@@ -121,14 +123,15 @@ namespace WifiGreetConsole
                 Console.WriteLine("Entering HandleConnections main loop");
                 Process proc = StartARPProcess();
                 //SendARPTableRequest(process);
-
-                foreach (IPAddress ip_address in IP_addreses) //go through each IP in ARP table and pings it
-                {
-                    //TODO: ping ip addresses
-                }
-
+            
                 Console.WriteLine("Getting IP and MAC from ARP"); //gets error when StreamWriter used
                 GetAndAddAddresses(process, IP_addreses, mac_addreses); //gets mac and ip addresses from ARP -a
+                
+                foreach (IPAddress ip in IP_addreses) //go through each IP in ARP table and pings it
+                {
+                    pingip.PingIPAddress(ip);
+                }
+
                 Console.WriteLine("Checking users");
 
                 foreach (PhysicalAddress mac in mac_addreses)

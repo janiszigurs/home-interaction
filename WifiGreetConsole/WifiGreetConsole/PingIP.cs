@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Diagnostics;
 using System.IO;
+using System.Net.NetworkInformation;
 
 namespace WifiGreetConsole
 {
@@ -51,7 +52,21 @@ namespace WifiGreetConsole
 
             return proc;
         }*/
+        public void PingIPAddress(IPAddress ip)
+        {
+            Console.WriteLine("Entering pinging service");
+            Ping pingSender = new Ping();
 
+            string data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+            byte[] buffer = Encoding.ASCII.GetBytes(data);
+
+            PingReply reply = pingSender.Send(ip, 500, buffer);
+
+            if (reply.Status == IPStatus.Success)
+            {
+                Console.WriteLine(ip.ToString() + "    ping : " + reply.Status);
+            }        
+        }
 
 
     }
