@@ -44,8 +44,6 @@ namespace WifiGreetConsole
         }
 
 
-
-
         public string[] SplitString(string string_to_split) //shouldn't be in this class...
         {
             char [] charSeparators = {',',' '};
@@ -105,7 +103,6 @@ namespace WifiGreetConsole
 
         public void UserStatusDisconnect(List<PhysicalAddress> passed_mac_list)
         {
-            List<int> UserIDsToDisconnect = new List<int>();
             foreach (User user in users)
             {
                 bool Disconnect = true;
@@ -121,24 +118,13 @@ namespace WifiGreetConsole
                 }
                 if (Disconnect == true)
                 {
-                    user.status = "Disconnected";
-                    Console.WriteLine("Disconnected user with MAC: " + user.mac_address.ToString());
-                    //UserIDsToDisconnect.Add(user.id);
-                }
-                
-            }
-            /*foreach (int id in UserIDsToDisconnect)
-            {
-                for (int i=0;i<users.Count;i++)
-                {
-                    if(users[i].id == id)
+                    if (user.status == "Connected")
                     {
-                        Console.WriteLine("Removed user with MAC: " + users[i].mac_address.ToString());
-                        users.Remove(users[i]);              
+                        user.status = "Disconnected";
+                        Console.WriteLine("Disconnected user with MAC: " + user.mac_address.ToString());
                     }
-                }
+                }            
             }
-            UserIDsToDisconnect.RemoveRange(0, UserIDsToDisconnect.Count);*/
         }
 
 
