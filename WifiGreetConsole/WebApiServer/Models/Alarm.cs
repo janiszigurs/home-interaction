@@ -7,7 +7,7 @@ namespace WebApiServer.Models
 {
     public class Alarm
     {
-        public int id { get; set; }
+        public Guid id { get; set; }
         public bool isRepeatable { get; set; }
         public DateTime AlarmTime { get; set; }
         public int SnoozeCount { get; set; }

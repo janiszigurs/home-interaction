@@ -5,31 +5,33 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApiServer.Models;
+using WebApiServer.Components;
 
 namespace WebApiServer.Controllers
 {
     public class AlarmsController : ApiController
     {
-        /*Alarm[] alarmsList = new Alarm[]
-        {
-            new Alarm { isRepeatable = true, AlarmText = "Alarm one" },
-            new Alarm { isRepeatable = true, AlarmText = "Alarm two"}
-        };*/
-
+        AlarmManager Am = new AlarmManager();
         List<Alarm> alarmsList = new List<Alarm>();
-        
 
-        [Route("alarms/alarmsforuser")]
+
+        [Route("alarms")]
         public IEnumerable<Alarm> GetAllAlarms()
         {
             //return alarmsList;
+            alarmsList = Am.LoadAlarms(@"d:\json.txt");
             return alarmsList;
         }
 
-        [Route("alarms/getalarm/{Id}")]
-        public IHttpActionResult GetAlarm(int Id)
+        [Route("alarms/get/{Id}")]
+        public IHttpActionResult GetAlarm(Guid Id)
         {
+            alarmsList = Am.LoadAlarms(@"d:\json.txt");
             var alarm = alarmsList.FirstOrDefault((p) => p.id == Id);
+            if (alarmsList.Count == 0)
+            {
+                return Ok("NO ALARMS PRESENT ON SERVER, something went wrong");
+            }
             if (alarm == null)
             {
                 return NotFound();
@@ -37,13 +39,24 @@ namespace WebApiServer.Controllers
             return Ok(alarm);
         }
 
-        [Route("alarms/addalarm")]
-        public IHttpActionResult AlarmAdd(int Id)
+        [Route("alarms/delete/{Id}")]
+        public IHttpActionResult DelteAlarm(Guid Id)
         {
-            //for now creates alarm just to see that interface works
+            if (Id == null)
+            {
+                return NotFound();
+            }
+            Am.DeleteAlarm(Id); 
+             return Ok("Alarm succesfully delted!");
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("alarms/add")]
+        public IHttpActionResult AlarmAdd()
+        {
             Alarm tmpAllarm = new Alarm();
             tmpAllarm.AlarmCreated = DateTime.Now;
-            tmpAllarm.id = 67;
+            tmpAllarm.id = Guid.NewGuid();
             tmpAllarm.AlarmTuneLocation = "media/file/location/here/filename.txt";
             tmpAllarm.isRepeatable = true;
             tmpAllarm.SnoozeCount = 2;
@@ -53,8 +66,22 @@ namespace WebApiServer.Controllers
                 {
                 return BadRequest("Alarm could not be added properly");
                 }
-            alarmsList.Add(tmpAllarm);
+            Am.LoadAlarms(@"d:\json.txt");
+            Am.Alarms.Add(tmpAllarm);
+            Am.SaveAlarms();
             return Ok("Alarm succesfully added");        
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("alarms/test")]
+        public IHttpActionResult Testquerry(string param)
+        {
+            if (param == "AZ")
+            {
+                return Ok("AZZZZZ");
+                //return BadRequest("Alarm could not be added properly");
+            }
+            return Ok("Alarm succesfully added");
         }
     }
 }
