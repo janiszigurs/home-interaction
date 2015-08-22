@@ -98,6 +98,8 @@ namespace WebApiServer.Controllers
         [Route("alarms/add")]
         public IHttpActionResult Testquerry(int days, string tunelocation, bool ir, int snoozecount, string alarmtext, string owner, int hh, int mm)
         {
+            string daysArray = days.ToString();
+            if (daysArray.Length !=7 ) { return BadRequest("Wrong parameter: count of days in array"); }
             Alarm tmpAllarm = new Alarm();
             tmpAllarm.AlarmCreated = DateTime.Now;
             tmpAllarm.id = Guid.NewGuid();
@@ -106,7 +108,18 @@ namespace WebApiServer.Controllers
             tmpAllarm.SnoozeCount = snoozecount;
             tmpAllarm.AlarmText = alarmtext;
             tmpAllarm.Owner = owner;
-
+            tmpAllarm.weekdays = new List<bool>();
+            foreach(char t in daysArray)
+            {
+                if (t.ToString()=="a")
+                {
+                    tmpAllarm.weekdays.Add(true);
+                }
+                else
+                {
+                    tmpAllarm.weekdays.Add(false);
+                }
+            }
             Am.LoadAlarms(@"d:\json.txt");
             Am.Alarms.Add(tmpAllarm);
             Am.SaveAlarms();

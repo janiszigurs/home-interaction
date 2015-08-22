@@ -11,7 +11,7 @@ namespace WebApiServer.Models
         public bool isRepeatable { get; set; }
         public DateTime AlarmTime { get; set; }
         public int SnoozeCount { get; set; }
-        public bool[] weekdays { get; set; }
+        public List<bool> weekdays { get; set; }
         public string AlarmTuneLocation { get; set; }
         public string AlarmText { get; set; }
         public string Owner { get; set; }
