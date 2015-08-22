@@ -19,11 +19,14 @@ namespace WifiGreetConsole
 
         static void Main(string[] args)
         {
-            Alarm.AlarmManager Manager = new Alarm.AlarmManager();
+            /*Alarm.AlarmManager Manager = new Alarm.AlarmManager();
             MacListener maclistener = new MacListener();
-            maclistener.RunMainThread();
+            maclistener.RunMainThread();*/
 
-
+            wSoundPlayer player = new wSoundPlayer();
+            player.LoadSound("alarm_test.wav");
+            player.PlaySound();
+            Console.ReadKey();
 
             /*
             //example of how to work with settings
