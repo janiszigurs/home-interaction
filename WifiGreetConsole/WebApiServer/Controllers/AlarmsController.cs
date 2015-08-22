@@ -52,7 +52,7 @@ namespace WebApiServer.Controllers
 
         [System.Web.Http.HttpGet]
         [Route("alarms/add")]
-        public IHttpActionResult AlarmAdd()
+        public IHttpActionResult AddStaticAlarm()
         {
             Alarm tmpAllarm = new Alarm();
             tmpAllarm.AlarmCreated = DateTime.Now;
@@ -73,14 +73,43 @@ namespace WebApiServer.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        [Route("alarms/test")]
-        public IHttpActionResult Testquerry(string param)
+        [Route("alarms/addstatic")]
+        public IHttpActionResult AlarmAdd()
         {
-            if (param == "AZ")
+            Alarm tmpAllarm = new Alarm();
+            tmpAllarm.AlarmCreated = DateTime.Now;
+            tmpAllarm.id = Guid.NewGuid();
+            tmpAllarm.AlarmTuneLocation = "media/file/location/here/filename.txt";
+            tmpAllarm.isRepeatable = true;
+            tmpAllarm.SnoozeCount = 2;
+            tmpAllarm.AlarmText = "Sample Alarm";
+            tmpAllarm.Owner = "arturszigurs";
+            if (tmpAllarm.Owner == "zigurs93")
             {
-                return Ok("AZZZZZ");
-                //return BadRequest("Alarm could not be added properly");
+                return BadRequest("Alarm could not be added properly");
             }
+            Am.LoadAlarms(@"d:\json.txt");
+            Am.Alarms.Add(tmpAllarm);
+            Am.SaveAlarms();
+            return Ok("Static alarm succesfully added");
+        }
+
+        [System.Web.Http.HttpGet]
+        [Route("alarms/add")]
+        public IHttpActionResult Testquerry(int days, string tunelocation, bool ir, int snoozecount, string alarmtext, string owner, int hh, int mm)
+        {
+            Alarm tmpAllarm = new Alarm();
+            tmpAllarm.AlarmCreated = DateTime.Now;
+            tmpAllarm.id = Guid.NewGuid();
+            tmpAllarm.AlarmTuneLocation = tunelocation;
+            tmpAllarm.isRepeatable = ir;
+            tmpAllarm.SnoozeCount = snoozecount;
+            tmpAllarm.AlarmText = alarmtext;
+            tmpAllarm.Owner = owner;
+
+            Am.LoadAlarms(@"d:\json.txt");
+            Am.Alarms.Add(tmpAllarm);
+            Am.SaveAlarms();
             return Ok("Alarm succesfully added");
         }
     }
