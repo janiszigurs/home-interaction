@@ -27,13 +27,15 @@ namespace WifiGreetConsole
         }
 
         public void LoadSound(string soundName) //loads sound
-        {
+        {           
             player.URL = ReturnSoundLocation(soundName);
+            Console.WriteLine("Sound loaded!");
         }
 
         public void PlaySound() //plays song once and stops when song fully played (if not stopped)
         {
             player.controls.play();
+            Console.WriteLine("Plays sound!");
         }
 
         public void PlaySoundLooping() //plays song looping until it's stopped (if not stopped)
