@@ -1,0 +1,17 @@
+﻿.red {
+    color: red;
+}
+.green {
+    color: green;
+}
+
+#rcorners2 {
+    border-radius: 25px;
+    border: 2px solid black;
+    padding: 20px;
+    min-width: 150px;
+    max-width: 500px;
+    width: auto;
+    min-height: 75px;
+    height: auto;
+}
