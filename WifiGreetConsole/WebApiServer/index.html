@@ -2,14 +2,52 @@
 <html>
 <head>
     <title></title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="mainstylesheet.css">
 </head>
 <body>
-    
-        <p>Available alarms for now: </p></br>
+
+    <p>Available alarms for now: </p></br>
+    <p>Current host address: http://84.237.250.21:55000</p></br>
     <div id="rcorners2">
-        <p>&lt;host&gt;alarms/alarmsforuser  - this gets alarms for specific user.<div class="red">NOW IMPLEMENTED YET TO USE USER PARAMETER</div></p></br>
+        <p>&lt;host&gt;/alarms  - this gets alarms for specific user.<div class="green">Works</div></p></br>
+    </div>
+    <div id="rcorners2">
+        <p>
+            &lt;host&gt;/allalarms  - this gets ALL the alarms that server has (all users)<div class="green">Works</div>
+            Params:</br> string user</br>
+            Example of call: http://84.237.250.21:55000/alarms?user=zigurs93
+        </p></br>
+    </div>
+    <div id="rcorners2">
+        <p>
+            &lt;host&gt;/alarms/get/{Id}  - this gets the specific alarm<div class="green">Works</div>
+            Params:</br> NONE</br>
+            Example of call: http://84.237.250.21:55000/alarms/get/xxxx-xxxxx-xxxxxx-xxxxxx
+        </p></br>
+    </div>
+    <div id="rcorners2">
+        <p>
+            &lt;host&gt;/alarms/addstatic  - this adds an alarm (with hardcoded parameters)<div class="green">Works</div>
+            Params:</br> NONE</br>
+            Example of call: http://84.237.250.21:55000/alarms/addstatic
+        </p></br>
+    </div>
+    <div id="rcorners2">
+        <p>
+            (int days, string tunelocation, bool ir, int snoozecount, string alarmtext, string owner, int hh, int mm)
+            &lt;host&gt;/alarms/add  - this adds an alarm with extended parameters.<div class="green">Works</div>
+            Params:</br> int days (7 digits (1/0) for each day of week alarm to be enabled)</br>
+            string tunelocation (location for audio file to play)</br>
+            bool ir (isRepeatable indicaes if alarm should be repeated- snoozed)</br>
+            int snoozecount (count of possibility to postpone alarm)</br>
+            string alarmtext (text to say when alarm is active)</br>
+            string owner (owner username)</br>
+            int hh (hour)</br>
+            int mm (minute)</br>
+            Example of call: http://84.237.250.21:55000/alarms/add?days=1111111&tunelocation=c/music/thistune.mps&ir=true&snoozecount=2&alarmtext=Thisisalarm&owner=zigurs93&hh=12&mm=23
+        </p></br>
     </div>
 </body>
 </html>
+

@@ -89,11 +89,13 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Components\AlarmManager.cs" />
+    <Compile Include="Components\ReminderManager.cs" />
     <Compile Include="Controllers\AlarmsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Alarm.cs" />
+    <Compile Include="Models\Reminder.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

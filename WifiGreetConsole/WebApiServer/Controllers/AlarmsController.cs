@@ -15,13 +15,27 @@ namespace WebApiServer.Controllers
         List<Alarm> alarmsList = new List<Alarm>();
 
 
-        [Route("alarms")]
+        [Route("allalarms")]
         public IEnumerable<Alarm> GetAllAlarms()
         {
             //return alarmsList;
             alarmsList = Am.LoadAlarms(@"d:\json.txt");
             return alarmsList;
         }
+
+        [Route("alarms")]
+        public IEnumerable<Alarm> GetAllAlarmsForUser(string user)
+        {
+            //return alarmsList;
+            alarmsList = Am.LoadAlarms(@"d:\json.txt");
+            var alarm = alarmsList.Where(p => p.Owner == user);
+            if (alarm.Count() == 0)
+            {
+                //some error here should be applied.
+            }
+            return alarmsList;
+        }
+
 
         [Route("alarms/get/{Id}")]
         public IHttpActionResult GetAlarm(Guid Id)
@@ -46,8 +60,8 @@ namespace WebApiServer.Controllers
             {
                 return NotFound();
             }
-            Am.DeleteAlarm(Id); 
-             return Ok("Alarm succesfully delted!");
+            Am.DeleteAlarm(Id);
+            return Ok("Alarm succesfully delted!");
         }
 
         [System.Web.Http.HttpGet]
@@ -63,13 +77,13 @@ namespace WebApiServer.Controllers
             tmpAllarm.AlarmText = "Sample Alarm";
             tmpAllarm.Owner = "arturszigurs";
             if (tmpAllarm.Owner == "zigurs93")
-                {
+            {
                 return BadRequest("Alarm could not be added properly");
-                }
+            }
             Am.LoadAlarms(@"d:\json.txt");
             Am.Alarms.Add(tmpAllarm);
             Am.SaveAlarms();
-            return Ok("Alarm succesfully added");        
+            return Ok("Alarm succesfully added");
         }
 
         [System.Web.Http.HttpGet]
@@ -99,7 +113,7 @@ namespace WebApiServer.Controllers
         public IHttpActionResult Testquerry(int days, string tunelocation, bool ir, int snoozecount, string alarmtext, string owner, int hh, int mm)
         {
             string daysArray = days.ToString();
-            if (daysArray.Length !=7 ) { return BadRequest("Wrong parameter: count of days in array"); }
+            if (daysArray.Length != 7) { return BadRequest("Wrong parameter: count of days in array"); }
             Alarm tmpAllarm = new Alarm();
             tmpAllarm.AlarmCreated = DateTime.Now;
             tmpAllarm.id = Guid.NewGuid();
@@ -109,9 +123,9 @@ namespace WebApiServer.Controllers
             tmpAllarm.AlarmText = alarmtext;
             tmpAllarm.Owner = owner;
             tmpAllarm.weekdays = new List<bool>();
-            foreach(char t in daysArray)
+            foreach (char t in daysArray)
             {
-                if (t.ToString()=="a")
+                if (t.ToString() == "a")
                 {
                     tmpAllarm.weekdays.Add(true);
                 }
