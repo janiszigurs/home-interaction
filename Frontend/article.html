@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Base</title>
+		<meta name="description" content="">
+		<link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+		<link type="text/css" rel="stylesheet" href="css/custom.css" />
+		<script src="js/jquery-2.1.4.min.js"></script>
+		<script src="js/manipulations.js"></script>
+		<script src="js/article.js"></script>
+		<script type="text/javascript" src="js/materialize.min.js"></script>
+		<script type="text/javascript" src="js/postoptions.js"></script>
+	</head>
+	<body>
+		<nav>
+			<div class="nav-wrapper">
+				<a href="#" class="brand-logo right">SomeLogoHere</a>
+				<ul id="nav-mobile" class="left hide-on-med-and-down">
+					<li>
+						<a href="index.html">Home</a>
+					</li>
+					<li>
+						<a href="addarticle.html">About</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div id=allsection>
+			<h3>Comments setion:</h3></br>
+			<section class=comment></section>
+			<div class="row" >
+					<input id="commentid" type="hidden" value="" name="id"><br/>
+					<div class="row">
+						<div class="input-field col s6">
+							<input id="commentauthor" type="text" length="20" name="author">
+							<label for="input_text">Author</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<textarea id="commenttext" class="materialize-textarea" length="120" name="text"></textarea>
+							<label for="textarea1">Comment</label>
+						</div>
+					</div>
+					<button class="btn waves-effect waves-light" onclick="Postcomment();">
+				    	<i class="material-icons">Add article</i>
+					</button>
+			</div>
+		</div>
+	</body>
+
+</html>

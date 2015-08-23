@@ -1,0 +1,55 @@
+.roundeddiv {
+    border: 2px solid lightgray;
+    padding: 10px 40px; 
+    background: #f1f8e9;
+    min-width: 300px;
+    border-radius: 25px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5em;
+    margin-top: 0.2em;
+}
+
+#progressbar
+{
+	width:270px;
+	height:150px;
+	position:absolute;
+	left:50%;
+	top:50%;
+	margin:-75px 0 0 -135px;
+}
+
+#commentBody {
+min-width: 300px;
+max-width: 600px;
+width: 500;
+height: 10em;
+margin-left: auto;
+margin-right: auto;
+}
+
+#commentAuthor
+{
+margin-left: auto;
+margin-right: auto;
+min-width: 300px;
+max-width: 600px;
+}
+
+.comment {
+    width: 50%;
+    display: block;
+    margin-bottom: 0.5em;
+    margin-top: 0.2em;
+}
+
+#allsection
+{
+    width: 75%;
+    min-width: 300px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
