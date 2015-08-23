@@ -37,13 +37,15 @@ namespace WebApiServer.Components
             return this.Reminders;
         }
 
-        public bool AddReminder(int hours, int minutes)
+        public bool AddReminder()
         {
+            //false methond for now
             return true;
         }
 
-        public bool AddReminder(int hours, int minutes, int snoozecount)
+        public bool AddReminder(string owner)
         {
+            //false methond for now
             return true;
         }
 

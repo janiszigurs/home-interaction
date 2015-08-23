@@ -91,6 +91,7 @@
     <Compile Include="Components\AlarmManager.cs" />
     <Compile Include="Components\ReminderManager.cs" />
     <Compile Include="Controllers\AlarmsController.cs" />
+    <Compile Include="Controllers\ReminderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

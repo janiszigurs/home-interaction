@@ -33,7 +33,7 @@ namespace WebApiServer.Controllers
             {
                 //some error here should be applied.
             }
-            return alarmsList;
+            return alarm;
         }
 
 
@@ -53,6 +53,7 @@ namespace WebApiServer.Controllers
             return Ok(alarm);
         }
 
+        [System.Web.Http.HttpGet]
         [Route("alarms/delete/{Id}")]
         public IHttpActionResult DelteAlarm(Guid Id)
         {
@@ -62,28 +63,6 @@ namespace WebApiServer.Controllers
             }
             Am.DeleteAlarm(Id);
             return Ok("Alarm succesfully delted!");
-        }
-
-        [System.Web.Http.HttpGet]
-        [Route("alarms/add")]
-        public IHttpActionResult AddStaticAlarm()
-        {
-            Alarm tmpAllarm = new Alarm();
-            tmpAllarm.AlarmCreated = DateTime.Now;
-            tmpAllarm.id = Guid.NewGuid();
-            tmpAllarm.AlarmTuneLocation = "media/file/location/here/filename.txt";
-            tmpAllarm.isRepeatable = true;
-            tmpAllarm.SnoozeCount = 2;
-            tmpAllarm.AlarmText = "Sample Alarm";
-            tmpAllarm.Owner = "arturszigurs";
-            if (tmpAllarm.Owner == "zigurs93")
-            {
-                return BadRequest("Alarm could not be added properly");
-            }
-            Am.LoadAlarms(@"d:\json.txt");
-            Am.Alarms.Add(tmpAllarm);
-            Am.SaveAlarms();
-            return Ok("Alarm succesfully added");
         }
 
         [System.Web.Http.HttpGet]
