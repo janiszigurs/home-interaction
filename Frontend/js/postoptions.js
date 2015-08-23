@@ -54,7 +54,7 @@ function Postarticle()
     fail: function (response) {
         console.log('Fail response: ' + JSON.stringify(response));
     }
-});
+	});
 
 
 }
