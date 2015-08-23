@@ -30,20 +30,20 @@
 			<div class="row" >
 					<div class="row">
 						<div class="input-field col s6">
-							<input id="articleauthor" type="text" length="20" name="author">
-							<label for="input_text">Author</label>
+							<input id="owner" type="text" length="20" name="author">
+							<label for="input_text">User</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s6">
-							<input id="articletitle" type="text" length="20" name="title">
-							<label for="input_text">Title</label>
+							<textarea id="alarmtext" class="materialize-textarea" length="200" name="text"></textarea>
+							<label for="textarea1">Text</label>
 						</div>
 					</div>
 					<div class="row">
-						<div class="input-field col s12">
-							<textarea id="articletext" class="materialize-textarea" length="2000" name="text"></textarea>
-							<label for="textarea1">Text</label>
+						<div class="input-field col s6">
+							<textarea id="tunelocation" class="materialize-textarea" length="2000" name="text"></textarea>
+							<label for="textarea1">Tune Location</label>
 						</div>
 					</div>
 					<label>Days</label>
@@ -107,10 +107,22 @@
 					<script type="text/javascript" src="js/jscode.js"></script>
 					</div>
 					
+					<label>Snooze</label>
+					<div class="row">
+						<div class="switch">
+							<label>
+							Off
+							<input id="ir" type="checkbox">
+							<span class="lever"></span>
+							On
+							</label>
+						</div>
+					</div>
+					
 					<label>Snooze count</label>
 					<div class="row">
 					<div class="col s0.5">
-					<select class="browser-default">
+					<select id="snoozecount" class="browser-default">
 						<option>0</option>
 						<option>1</option>
 						<option>2</option>
@@ -121,8 +133,8 @@
 					</div>
 					</div>
 					
-					  <button class="btn waves-effect waves-light" onclick="Postarticle();">
-				    	<i class="material-icons">Add article</i>
+					  <button class="btn waves-effect waves-light" onclick="Postarticle()">
+				    	<i class="material-icons">Add alarm</i>
 				  	  </button>
 			</div>
 		</div>
