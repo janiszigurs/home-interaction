@@ -95,6 +95,7 @@ namespace WebApiServer.Controllers
             if (days.Length != 7) { return BadRequest("Wrong parameter: count of days in array"); }
             Alarm tmpAllarm = new Alarm();
             tmpAllarm.AlarmCreated = DateTime.Now;
+            tmpAllarm.AlarmTime = new DateTime().AddHours(hh).AddMinutes(mm);
             tmpAllarm.id = Guid.NewGuid();
             tmpAllarm.AlarmTuneLocation = tunelocation;
             tmpAllarm.isRepeatable = ir;
