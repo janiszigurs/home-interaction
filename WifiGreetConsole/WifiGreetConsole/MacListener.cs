@@ -101,6 +101,7 @@ namespace WifiGreetConsole
                     mac_addr_list.Add(PhysicalAddress.Parse(text[k-1].ToUpper()));
                     ip_addr_list.Add(IPAddress.Parse(text[k - 2].ToUpper()));
                     Console.WriteLine(text[k - 2]);
+                    Console.Write("");
                 }
             }
         }
