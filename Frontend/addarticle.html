@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Base</title>
+		<meta name="description" content="">
+		<link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+		<link type="text/css" rel="stylesheet" href="css/custom.css"/>
+		<script src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/materialize.min.js"></script>
+		<script type="text/javascript" src="js/postoptions.js"></script>
+	</head>
+	<body>
+		<nav>
+			<div class="nav-wrapper">
+				<a href="#" class="brand-logo right">SomeLogoHere</a>
+				<ul id="nav-mobile" class="left hide-on-med-and-down">
+					<li>
+						<a href="index.html">Home</a>
+					</li>
+					<li>
+						<a href="addarticle.html">About</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div id=allsection>
+			<section class=comment></section>
+			<div class="row" >
+					<div class="row">
+						<div class="input-field col s6">
+							<input id="articleauthor" type="text" length="20" name="author">
+							<label for="input_text">Author</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s6">
+							<input id="articletitle" type="text" length="20" name="title">
+							<label for="input_text">Title</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<textarea id="articletext" class="materialize-textarea" length="2000" name="text"></textarea>
+							<label for="textarea1">Text</label>
+						</div>
+					</div>
+					<label>Days</label>
+					<div class="row">
+					<table class="col s4">
+						<tr>
+							<td>Mon</td>
+							<td>Tue</td>
+							<td>Wed</td>
+							<td>Thu</td>
+							<td>Fri</td>
+							<td>Sat</td>
+							<td>Sun</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="checkbox" id="mon" />
+								<label for="mon"></label>
+							</td>
+							<td>
+								<input type="checkbox" id="tue" />
+								<label for="tue"></label>
+							</td>
+							<td>
+								<input type="checkbox" id="wed" />
+								<label for="wed"></label>
+							</td>
+							<td>
+								<input type="checkbox" id="thu" />
+								<label for="thu"></label>
+							</td>
+							<td>
+								<input type="checkbox" id="fri" />
+								<label for="fri"></label>
+							</td>
+							<td>
+								<input type="checkbox" id="sat" />
+								<label for="sat"></label>
+							</td>
+							<td>
+								<input type="checkbox" id="sun" />
+								<label for="sun"></label>
+							</td>
+						</tr>
+					</table>
+					
+					</div>
+					<label>Time</label>
+					<div class="row">
+					<div class="col s1.5">
+					<select id="hh" class="browser-default">
+						<option disabled selected>Hours</option>
+					</select>
+					</div>
+					<div class="col s1.5">
+					<label></label>
+					<select id="mm" class="browser-default">
+						<option disabled selected>Minutes</option>
+					</select>
+					</div>
+					<script type="text/javascript" src="js/jscode.js"></script>
+					</div>
+					
+					<label>Snooze count</label>
+					<div class="row">
+					<div class="col s0.5">
+					<select class="browser-default">
+						<option>0</option>
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+					</select>
+					</div>
+					</div>
+					
+					  <button class="btn waves-effect waves-light" onclick="Postarticle();">
+				    	<i class="material-icons">Add article</i>
+				  	  </button>
+			</div>
+		</div>
+	</body>
+
+</html>
