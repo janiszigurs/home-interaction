@@ -123,7 +123,7 @@ namespace WebApiServer.Controllers
             Am.LoadAlarms(@"d:\json.txt");
             Am.Alarms.Add(tmpAllarm);
             Am.SaveAlarms();
-            return Ok("Alarm succesfully added");
+            return Ok("Alarm succesfully added!");
         }
     }
 }
