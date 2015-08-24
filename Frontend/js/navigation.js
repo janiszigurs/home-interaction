@@ -9,9 +9,6 @@ window.onload = function(){
 						<a href="addarticle.html">Add Alarm</a>\
 					</li>\
 					<li>\
-						<a href="addarticle.html">Add Alarm</a>\
-					</li>\
-					<li>\
 						<a href="alarms.html">Alarms</a>\
 					</li>\
 					<li>\

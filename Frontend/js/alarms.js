@@ -12,8 +12,8 @@ $.ajax({
 			    url: "http://localhost:55000/alarms?user=zigurs93",
 			    success: function(response) {
 			        $.each(response, function (i, alarm) {
-			            $('#alarms').append('<div class="col s12 m6"> <div class="card blue-grey darken-1" id="'+ alarm.id +'"> <span class="card-title">'+alarm.AlarmTime+'</span><p>'
-							 //+ 'Is Repeatable: '+ alarm.isRepeatable + '</br>' 
+			            $('#alarms').append('<div class="col s12 m6"> <div class="card blue-grey darken-1" id="'+ alarm.id +'"> <span class="card-title">Alarm Time: '+alarm.AlarmTime.substring(11, 16)+'</span><p>'
+				//+ 'Is Repeatable: '+ alarm.isRepeatable + '</br>' 
                              + '<div class="'+alarm.weekdays[0]+'"'+(0===t?'id="today"':'')+'>M</div>' 
                              + '<div class="'+alarm.weekdays[1]+'"'+(1===t?'id="today"':'')+'>T</div>'
                              + '<div class="'+alarm.weekdays[2]+'"'+(2===t?'id="today"':'')+'>W</div>'
@@ -36,3 +36,10 @@ String.prototype.trunc = String.prototype.trunc ||
       function(n){
           return this.length>n ? this.substr(0,n-1)+'&hellip;' : this;
       };
+
+function DeleteAlarm()
+{
+    //todo: refresh
+    
+    //todo: goto link
+}
