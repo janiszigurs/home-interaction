@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WifiGreetConsole", "WifiGre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiServer", "WebApiServer\WebApiServer.csproj", "{6DA3ED99-ADD1-435F-8BF8-0092CDD53006}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiServerV2", "WebApiServerV2\WebApiServerV2.csproj", "{F93DF4D8-F68D-4AAE-8553-7203B0DDD94A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6DA3ED99-ADD1-435F-8BF8-0092CDD53006}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DA3ED99-ADD1-435F-8BF8-0092CDD53006}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DA3ED99-ADD1-435F-8BF8-0092CDD53006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F93DF4D8-F68D-4AAE-8553-7203B0DDD94A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F93DF4D8-F68D-4AAE-8553-7203B0DDD94A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F93DF4D8-F68D-4AAE-8553-7203B0DDD94A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F93DF4D8-F68D-4AAE-8553-7203B0DDD94A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
