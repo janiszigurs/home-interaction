@@ -9,6 +9,7 @@ namespace WebApiServerV2.Models
     {
         [System.ComponentModel.DataAnnotations.Key]
         public Guid Id { get; set; }
+        public Guid OwnerId { get; set; }
         public string Name { get; set; }
         public bool IsRepeatable { get; set; }
         public DateTime AlarmTime { get; set; }
@@ -20,6 +21,7 @@ namespace WebApiServerV2.Models
         public string AlarmText { get; set; }
         public string Owner { get; set; }
         public bool Enabled { get; set; }
+        //sets devices types where alarm should be played on
         public string AlarmDeviceType{ get; set; }
     }
 }

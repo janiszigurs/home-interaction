@@ -11,14 +11,18 @@ namespace WebApiServerV2.Models
         public Guid Id { get; set; }
         public string Uname { get; set; }
         public string Rname { get; set; }
-        public string Pwd { get; set; }
-        public DateTime created { get; set; }
-        public DateTime lastlogin { get; set; }
+        public string Sname { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string PasswordHash { get; set; }
+        public DateTime Created { get; set; }
+        public DateTime Lastlogin { get; set; }
+        public DateTime LastHeartBeat { get; set; }
         public bool AlarmsUpdated { get; set; }
         public bool RemindersUpdated { get; set; }
         public bool CalendarUpdated { get; set; }
-        //Settings for user to edit CSS classes on frontend
         public bool IsOnline { get; set; }
+        //Settings for use
         public string BackgroundColor { get; set; }
         public string CardColor { get; set; }
         public string HeaderFooterColor { get; set; }
