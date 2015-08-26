@@ -9,7 +9,7 @@ var t= (d.getDay()+6)%7;
 
 $.ajax({
                 
-			    url: "http://localhost:55000/alarms?user=zigurs93",
+			    url: "http://http://84.237.250.21:55000/alarms?user=zigurs93",
 			    success: function(response) {
 			        $.each(response, function (i, alarm) {
 			            $('#alarms').append('<div class="col s12 m6"> <div class="card blue-grey darken-1" id="'+ alarm.id +'"> <span class="card-title">Alarm Time: '+alarm.AlarmTime.substring(11, 16)+'</span><p>'
@@ -41,7 +41,7 @@ String.prototype.trunc = String.prototype.trunc ||
 function deleteLink (id){	 
 			console.log(id);
             $.ajax({
-            url: "http://localhost:55000/alarms/delete/"+encodeURIComponent(id),
+            url: "http://84.237.250.21:55000/alarms/delete/"+encodeURIComponent(id),
             success: function (response) {
                 console.log('Success response: ' + JSON.stringify(response));
                 //toastr.success('Sucess! server responded: '+ JSON.stringify(response));
