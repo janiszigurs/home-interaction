@@ -19,20 +19,29 @@ namespace WifiGreetConsole
 
         static void Main(string[] args)
         {
-            /*Alarm.AlarmManager Manager = new Alarm.AlarmManager();
-            MacListener maclistener = new MacListener();
-            maclistener.RunMainThread();*/
+            Alarm.AlarmManager Manager = new Alarm.AlarmManager();
+            /*MacListener maclistener = new MacListener();
+            maclistener.StartToListen();
 
             wSoundPlayer player = new wSoundPlayer();
             player.LoadSound("alarm_test.wav");
             player.PlaySound();
             Console.ReadKey();
+            maclistener.StopToListen();
+            Console.ReadKey();*/
 
-            /*
+
             //example of how to work with settings
+
+
+
+
+
             Console.WriteLine(ConfigurationManager.AppSettings["testkey"]);
 
             string input;
+
+            bool alreadyStarted = false;
 
             while(!_StopMainThread)
             {
@@ -40,12 +49,20 @@ namespace WifiGreetConsole
                 input = Console.ReadLine();
                 switch (input)
                 {
-                    case "start alarms":
-                        Manager.LoadAlarms("StoredAlarms.json");
-                        new Thread(delegate () { Manager.StartAlarmClock(); }).Start();
+                    case "a_start":
+                        if (alreadyStarted == false)
+                        {
+                            alreadyStarted = true;
+                            Manager.LoadAlarms();
+                            new Thread(delegate () { Manager.StartAlarmClock(); }).Start();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Already started!");
+                        }
                         break;
 
-                    case "add alarm":
+                    case "a_add":
                         Console.WriteLine("Please provide Hours");
                         int hours = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine("Please provide Minutes");
@@ -57,11 +74,11 @@ namespace WifiGreetConsole
                         #endif
                         break;
 
-                    case "alarm count":
+                    case "a_count":
                         Console.WriteLine("Currently you have:"+Manager.Alarms.Count());
                         break;
 
-                    case "stop alarms":
+                    case "a_stop":
                         Manager._stopThread = true;
                         break;
 
@@ -69,7 +86,7 @@ namespace WifiGreetConsole
                         _StopMainThread = true;
                         break;
                 }
-            }*/
+            }
         }
     }
 }

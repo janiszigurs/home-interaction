@@ -12,7 +12,7 @@ namespace WifiGreetConsole
 {
     public class UserManager
     {
-        List<User> users = new List<User>();
+        public List<User> users = new List<User>();
         int id;
 
 

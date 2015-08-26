@@ -8,6 +8,8 @@ using System.Globalization;
 using System.Speech.Synthesis;
 using Newtonsoft.Json;
 using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace WifiGreetConsole.Alarm
 {
@@ -15,30 +17,46 @@ namespace WifiGreetConsole.Alarm
     {
         public bool _stopThread = false;
         public List<Alarm> Alarms = new List<Alarm>();
+        public bool retrieved = false;
 
-        public bool LoadAlarms(string AlarmConfigFileName)
+
+        public List<Alarm> LoadAlarms()
         {
-            using (StreamWriter w = File.AppendText(AlarmConfigFileName))
+            /*if (Alarms.Count > 0)
             {
-                //empty body. this creates file if its not yet created.
-            };
+                Alarms.RemoveRange(0, Alarms.Count);
+            }    */       
+            RetrieveAlarms().Wait();
+            return Alarms;
+        }
 
-            string json;
-            using (StreamReader reader = new StreamReader(AlarmConfigFileName))
+        public async Task RetrieveAlarms()
+        {
+            if (retrieved == false)
             {
-                json = reader.ReadToEnd();
-                reader.Close();
-            }
-            if (json.Length == 0)
-            {
-                this.Alarms = new List<Alarm>();
-            }
-            else
-            {
-                this.Alarms = JsonConvert.DeserializeObject<List<Alarm>>(json);
-            }
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("http://84.237.250.21:55000/");
+                    string a = "alarms?user=zigurs93";
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            return true;
+                    // HTTP GET
+                    HttpResponseMessage response = await client.GetAsync(a);
+                    var c = response.Content;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Alarms = await response.Content.ReadAsAsync<List<Alarm>>();
+                        ///////////////////////////////// temporary
+                        foreach (Alarm alarm in Alarms)
+                        {
+                            alarm.isRepeatable = false;
+                        }
+                        retrieved = true;
+                        ///////////////////////////////// temporary
+                    }
+                }
+            }
         }
 
         public bool AddAlarm(int hours, int minutes)
@@ -116,10 +134,15 @@ namespace WifiGreetConsole.Alarm
                     {
                         if (CurrAlarm.weekdays[(int)DateTime.Now.DayOfWeek] == true)
                         {
-                            Console.WriteLine("Alarm called!");
-                            this.AwakePerson();
-                            Thread.Sleep(1000);
-                            //this._stopThread = true;
+                            if(CurrAlarm.isRepeatable == false) ///////////////////////////////// temporary
+                            { ///////////////////////////////// temporary
+                                Console.WriteLine("Alarm called!");
+                                this.AwakePerson();
+                                CurrAlarm.isRepeatable = true;
+                                Thread.Sleep(1000);
+                                //this._stopThread = true;
+                                
+                            } ///////////////////////////////// temporary
                         }
                     }
                 }

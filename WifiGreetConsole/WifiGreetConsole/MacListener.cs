@@ -13,15 +13,18 @@ namespace WifiGreetConsole
 {
     public class MacListener
     {
-        UserManager manager;
-        PingIP pingip;
-        List<PhysicalAddress> mac_addreses;
-        List<IPAddress> IP_addreses;
-        string filepath;
-        Process process;
-        ProcessStartInfo procStartInfo;
+        private UserManager manager;
+        private PingIP pingip;
+        private List<PhysicalAddress> mac_addreses;
+        private List<IPAddress> IP_addreses;
+        private string filepath;
+        private Process process;
+        private ProcessStartInfo procStartInfo;
+        private Thread main;
 
-        public string ReturnLocation()
+        private int state;
+
+        private string ReturnLocation()
         {
             string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
             path = path.Remove(path.Length - 9);
@@ -37,6 +40,7 @@ namespace WifiGreetConsole
             pingip = new PingIP();
             mac_addreses = new List<PhysicalAddress>();
             IP_addreses = new List<IPAddress>();
+            //main = new Thread(Listen);
         }
 
 
@@ -69,16 +73,16 @@ namespace WifiGreetConsole
 
         public void ResetMACList(List<PhysicalAddress> mac_list)
         {
-            mac_list.RemoveRange(0,mac_list.Count);
+            lock(mac_list) { mac_list.RemoveRange(0, mac_list.Count);}                       
         }
 
         public void ResetIPList(List<IPAddress> ip_list)
         {
-            ip_list.RemoveRange(0, ip_list.Count);
+            lock (ip_list) { ip_list.RemoveRange(0, ip_list.Count); }                        
         }
 
 
-        public string[] SplitString(string string_to_split) //shouldn't be in this class
+        private string[] SplitString(string string_to_split) //shouldn't be in this class
         {
             char[] charSeparators = { ',', ' ' };
             string[] strings = string_to_split.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
@@ -101,64 +105,67 @@ namespace WifiGreetConsole
                     mac_addr_list.Add(PhysicalAddress.Parse(text[k-1].ToUpper()));
                     ip_addr_list.Add(IPAddress.Parse(text[k - 2].ToUpper()));
                     Console.WriteLine(text[k - 2]);
-                    Console.Write("");
                 }
             }
         }
 
-        public void RunMainThread()
+        public void StartToListen()
         {
             ProcessStartInfo PSI = SetARPProcessStartInfo();
-            
-
-            Thread main = new Thread(HandleConnections);
-            //main.IsBackground = true;
-            main.Start();
+            state = 1;
+            main = new Thread(Listen); //required because can't restart thread after stopping/aborting it
+            if (((main.ThreadState & System.Threading.ThreadState.Stopped) == System.Threading.ThreadState.Stopped) || ((main.ThreadState & System.Threading.ThreadState.Unstarted) == System.Threading.ThreadState.Unstarted)) 
+            {
+                main.Start();
+            }           
         }
 
 
-        public void HandleConnections() //used for thread
+        public void Listen() //used for thread
         {
-            while (true)
+            while (state == 1)
             {
-                Console.WriteLine("Entering HandleConnections main loop");
+                Console.WriteLine("Entering maclistener thread loop..");
                 Process proc = StartARPProcess();
-                //SendARPTableRequest(process);
             
-                Console.WriteLine("Getting IP and MAC from ARP"); //gets error when StreamWriter used
                 GetAndAddAddresses(process, IP_addreses, mac_addreses); //gets mac and ip addresses from ARP -a
                 
-                foreach (IPAddress ip in IP_addreses) //go through each IP in ARP table and pings it
+                /*foreach (IPAddress ip in IP_addreses) //go through each IP in ARP table and pings it
                 {
                     pingip.PingIPAddress(ip);
-                }
-
-                Console.WriteLine("Checking users");
+                }*/
 
                 foreach (PhysicalAddress mac in mac_addreses)
                 {
                     manager.AddUserIfNecessary(manager.CheckIfUserIsConnectedAndExists(mac), mac, filepath); //cheks and adds user if necessary
                 }
 
-                Console.WriteLine("Going to disconnect users");
                 manager.UserStatusDisconnect(mac_addreses);
-                Console.WriteLine("Disconnected users");
                 ResetMACList(mac_addreses);
                 ResetIPList(IP_addreses);
-                Console.WriteLine("Exiting HandleConnection loop");
                 Thread.Sleep(5000);
             }
         }
 
-        /*public void SendARPTableRequest(Process process)
+        public void StopToListen()
         {
-            Console.WriteLine("Sending ARP table request");
+            state = 0;
+            main.Abort();
+        }
 
-            StreamWriter command_writer = process.StandardInput;
-            command_writer.WriteLine("cls");
-            command_writer.WriteLine("arp -a");
-            command_writer.Close();
-        }*/
+        public List<IPAddress> ReturnIPAddressList()
+        {
+            return IP_addreses;
+        }
 
+        public List<PhysicalAddress> ReturnMACAddressList()
+        {
+            return mac_addreses;
+        }
+
+        public List<User> ReturnUserList()
+        {
+            return manager.users;
+        }
     }
 }
