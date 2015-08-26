@@ -20,7 +20,6 @@ namespace WebApiServerV2.Controllers
         [Route("users/listallusers")]
         public IQueryable<User> GetUsers(string hash)
         {
-            hash = "";
             if (hash == "secret")return db.Users;
             return null;
         }
@@ -108,6 +107,7 @@ namespace WebApiServerV2.Controllers
         // DELETE: api/Users/5
         [Route("users/remove")]
         [ResponseType(typeof(User))]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
         public IHttpActionResult DeleteUser(Guid id)
         {
             User user = db.Users.Find(id);

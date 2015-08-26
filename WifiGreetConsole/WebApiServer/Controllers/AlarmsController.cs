@@ -57,6 +57,7 @@ namespace WebApiServer.Controllers
         [Route("alarms/delete/{Id}")]
         public IHttpActionResult DelteAlarm(Guid Id)
         {
+            Am.LoadAlarms(@"d:\json.txt");
             if (Id == null)
             {
                 return NotFound();
