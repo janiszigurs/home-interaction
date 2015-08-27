@@ -13,5 +13,6 @@ namespace WebApiServerV2.Models
         public string Name { get; set; }
         public string Path { get; set; }
         public DateTime ItemAdded { get; set; }
+        public string FileFormat { get; set; }
     }
 }

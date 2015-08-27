@@ -9,7 +9,7 @@ var t= (d.getDay()+6)%7;
 
 $.ajax({
                 
-			    url: "http://http://84.237.250.21:55000/alarms?user=zigurs93",
+			    url: "http://84.237.250.21:55000/alarms?user=zigurs93",
 			    success: function(response) {
 			        $.each(response, function (i, alarm) {
 			            $('#alarms').append('<div class="col s12 m6"> <div class="card blue-grey darken-1" id="'+ alarm.id +'"> <span class="card-title">Alarm Time: '+alarm.AlarmTime.substring(11, 16)+'</span><p>'
