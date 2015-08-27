@@ -44,11 +44,11 @@ function deleteLink (id){
             url: "http://84.237.250.21:55000/alarms/delete/"+encodeURIComponent(id),
             success: function (response) {
                 console.log('Success response: ' + JSON.stringify(response));
-                //toastr.success('Sucess! server responded: '+ JSON.stringify(response));
+                toastr.success('Sucess! '+ JSON.stringify(response));
                 $(location).attr('href',"alarms.html");
             },
             fail: function (response) {
-                //toastr.warning('Failure! server responded: '+ JSON.stringify(response));
+                toastr.warning('Failure! '+ JSON.stringify(response));
             }
 			});
 }

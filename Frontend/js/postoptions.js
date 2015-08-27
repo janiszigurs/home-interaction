@@ -50,9 +50,11 @@ function Postarticle()
     dataType: "json",
     success: function (response) {
         console.log('Success response: ' + JSON.stringify(response));
+	toastr.success('Alarm sucesfully added!');
     },
     fail: function (response) {
         console.log('Fail response: ' + JSON.stringify(response));
+	toastr.error('Error adding alarm');
     }
 	});
 
