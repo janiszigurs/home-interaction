@@ -1,10 +1,7 @@
 window.onload = function(){
 	$('.nav-wrapper').append(
-		      '<a href="#" class="brand-logo right">SomeLogoHere</a>\
+		      '<a href="#" class="brand-logo right">Welcome: Arturs</a>\
 	      <ul id="nav-mobile" class="left hide-on-med-and-down">\
-					<li>\
-						<a href="index.html">News articles</a>\
-					</li>\
 					<li>\
 						<a href="addarticle.html">Add Alarm</a>\
 					</li>\
@@ -21,4 +18,11 @@ window.onload = function(){
 						<a href="http://localhost:55000/index.html">API</a>\
 					</li>\
 	      </ul>')
+	$('.page-footer').append(
+          '<div class="footer-copyright">\
+            <div class="container">\
+            © 2015 A.Z J.Z A.O\
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>\
+            </div>\
+          </div>')
 }
